@@ -72,4 +72,33 @@ namespace TestFramework
             Priority = priority;
         }
     }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    public class TestCollectionAttribute : Attribute
+    {
+        public string Name { get; }
+
+        public TestCollectionAttribute(string name)
+        {
+            Name = name;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    public class CollectionDefinitionAttribute : Attribute
+    {
+        public string Name { get; }
+        public Type FixtureType { get; }
+
+        public CollectionDefinitionAttribute(string name, Type fixtureType)
+        {
+            Name = name;
+            FixtureType = fixtureType;
+        }
+    }
+
+    public interface ISharedFixture : IDisposable
+    {
+        void Initialize();
+    }
 }
