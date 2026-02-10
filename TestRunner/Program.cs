@@ -21,14 +21,16 @@ class TestRunner
 
         if (!File.Exists(testAssemblyPath))
         {
-            Console.WriteLine($"Error: file not found: {testAssemblyPath}");
+            Console.WriteLine($"File not found: {testAssemblyPath}");
             return;
         }
 
         Assembly testAssembly = Assembly.LoadFrom(testAssemblyPath);
-        var results = new List<TestResult>();
 
-        foreach (Type type in testAssembly.GetTypes())
+        var results = new List<TestResult>();
+        var types = testAssembly.GetTypes();
+
+        foreach (Type type in types)
         {
             if (type.GetCustomAttribute<TestClassAttribute>() != null)
             {
@@ -37,53 +39,39 @@ class TestRunner
                 var methods = type.GetMethods()
                     .Where(
                             m => m.GetCustomAttribute<TestMethodAttribute>() != null ||
-                                m.GetCustomAttribute<TestAsyncAttribute>() != null )
-                    .Select( m => new
-                        {
+                                m.GetCustomAttribute<TestAsyncAttribute>() != null)
+                    .Select(m => new
+                    {
                         Method = m,
                         Priority = m.GetCustomAttribute<TestPriorityAttribute>()?.Priority
-                        }
+                    }
                     )
-                    .OrderByDescending( m => m.Priority )
+                    .OrderByDescending(m => m.Priority)
                     .Select(x => x.Method)
                     .ToList();
-
-                var classInitMethod = type.GetMethods()
-                    .FirstOrDefault(m => m.GetCustomAttribute<TestClassInitAttribute>() != null);
-                var classCleanupMethod = type.GetMethods()
-                    .FirstOrDefault(m => m.GetCustomAttribute<TestClassCleanupAttribute>() != null);
-
-
-                try
-                {
-                    classInitMethod?.Invoke(testInstance, null);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Critical Error in ClassInit for {type.Name}: {ex}");
-                    continue;
-                }
-
+                
+                var classInitMethod = GetMethodWithAttribute<TestClassInitAttribute>(type);
+                var classCleanupMethod = GetMethodWithAttribute<TestClassCleanupAttribute>(type);
+                
+                classInitMethod?.Invoke(testInstance, null);
 
                 foreach (MethodInfo method in methods)
                 {
                     var ignoreAttr = method.GetCustomAttribute<TestIgnoreAttribute>();
 
-                    if( ignoreAttr != null)
+                    if (ignoreAttr != null)
                     {
                         results.Add(new TestResult
                         {
                             TestName = $"{type.Name}.{method.Name}",
-                            Status = "IGNORED"                        
+                            Status = "IGNORED"
                         });
                         continue;
                     }
 
-                    var methodInitMethod = type.GetMethods()
-                        .FirstOrDefault(m => m.GetCustomAttribute<TestMethodInitAttribute>() != null);
-                    var methodCleanupMethod = type.GetMethods()
-                        .FirstOrDefault(m => m.GetCustomAttribute<TestMethodCleanupAttribute>() != null);
-
+                    var methodInitMethod = GetMethodWithAttribute<TestMethodInitAttribute>(type);
+                    var methodCleanupMethod = GetMethodWithAttribute<TestMethodCleanupAttribute>(type);
+                       
                     bool isAsync = method.GetCustomAttribute<TestAsyncAttribute>() != null;
 
                     if (method.GetCustomAttribute<TestMethodAttribute>() != null)
@@ -109,57 +97,34 @@ class TestRunner
 
                 }
 
-                try
-                {
-                    classCleanupMethod?.Invoke(testInstance, null);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error in ClassCleanup for {type.Name}: {ex}");
-                }
+                classCleanupMethod?.Invoke(testInstance, null);
+
             }
         }
 
         PrintResults(results);
     }
 
-    static async Task RunTestWithParametrs(
-        List<TestResult> results,
-        object testInstance,
-        MethodInfo method,
-        object[] parametrs,
-        string testName,
-        MethodInfo initMethod,
-        MethodInfo cleanupMethod,
-        bool isAsync)
+    static async Task RunTestWithParametrs(List<TestResult> results, object testInstance, 
+                                            MethodInfo method, object[] parametrs,
+                                            string testName, MethodInfo initMethod,
+                                            MethodInfo cleanupMethod, bool isAsync)
     {
         try
         {
             initMethod?.Invoke(testInstance, null);
-
-            if (isAsync)
-            {
-                var task = (Task)method.Invoke(testInstance, parametrs);
-                task.Wait();
-
-                if (task.IsFaulted && task.Exception != null)
-                {
-                    throw task.Exception;
-                }
+            var returnValue = method.Invoke(testInstance, parametrs);
+            if (returnValue is Task task) { 
+                task.GetAwaiter().GetResult();
             }
-            else
-            {
-                method.Invoke(testInstance, parametrs);
-            }
-                
-            results.Add(new TestResult{ TestName = testName, Status = "PASSED" });
+            results.Add(new TestResult { TestName = testName, Status = "PASSED" });
         }
         catch (Exception ex)
         {
-            results.Add(new TestResult{ TestName = testName, Status = "FAILED", Error = ex.InnerException?.Message ?? ex.Message});
+            results.Add(new TestResult { TestName = testName, Status = "FAILED", Error = ex.InnerException?.Message ?? ex.Message });
         }
         finally
-        {         
+        {
             cleanupMethod?.Invoke(testInstance, null);
         }
     }
@@ -177,4 +142,10 @@ class TestRunner
         int passed = results.Count(r => r.Status == "PASSED");
         Console.WriteLine($"\nTotal: {results.Count}, Passed: {passed}, Failed: {results.Count - passed}");
     }
+
+    static MethodInfo GetMethodWithAttribute<T>(Type type)where T: Attribute
+    {
+        return type.GetMethods().FirstOrDefault(m => m.GetCustomAttribute<T>() != null);
+    }
+
 }
