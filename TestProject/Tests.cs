@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 using TestFramework;
 using TestableProject;
 
-// ==================== SHARED CONTEXT ====================
-
 public class LibraryFixture : ISharedFixture
 {
     public Library SharedLibrary { get; private set; }
@@ -27,7 +25,6 @@ public class LibraryFixture : ISharedFixture
 [CollectionDefinition("LibraryCollection", typeof(LibraryFixture))]
 public class LibraryCollection { }
 
-// ==================== BOOK TESTS ====================
 
 [TestClass]
 public class BookTests
@@ -115,7 +112,7 @@ public class BookTests
         try
         {
             var book = new Book(0, "Title", "Author", 5, 10m, BookCategory.Fiction);
-            Assert.isTrue(false); // Should not reach here
+            Assert.isTrue(false);
         }
         catch (ArgumentException ex)
         {
@@ -177,7 +174,7 @@ public class BookTests
     [TestIgnore]
     public void TestIgnoredMethod()
     {
-        Assert.isTrue(false); // This should not execute
+        Assert.isTrue(false);
     }
 
     [TestMethod]
@@ -203,7 +200,6 @@ public class BookTests
     }
 }
 
-// ==================== MEMBER TESTS ====================
 
 [TestClass]
 public class MemberTests
@@ -285,7 +281,6 @@ public class MemberTests
     }
 }
 
-// ==================== LIBRARY TESTS WITH SHARED CONTEXT ====================
 
 [TestClass]
 [TestCollection("LibraryCollection")]
@@ -355,8 +350,6 @@ public class LibrarySearchTests
         Assert.isEmpty(books);
     }
 }
-
-// ==================== LIBRARY OPERATIONS TESTS ====================
 
 [TestClass]
 public class LibraryOperationsTests
@@ -507,7 +500,6 @@ public class LibraryOperationsTests
     }
 }
 
-// ==================== COMPARISON TESTS ====================
 
 [TestClass]
 public class ComparisonTests
