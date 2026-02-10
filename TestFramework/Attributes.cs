@@ -9,13 +9,13 @@ namespace TestFramework
     {
     }
 
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Method)]
     public class TestClassInitAttribute: Attribute
     {
 
     }
 
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Method)]
     public class TestClassCleanupAttribute : Attribute
     {
 
