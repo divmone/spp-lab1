@@ -100,6 +100,7 @@ class TestRunner
                 sf.Initialize();
             }
 
+
             _sharedFixtures[collectionName] = sharedFixture;
             Console.WriteLine($"Shared fixture created for collection: {collectionName}");
         }

@@ -52,6 +52,7 @@ namespace TestableProject
         }
     }
 
+
     public enum BookCategory
     {
         Fiction,

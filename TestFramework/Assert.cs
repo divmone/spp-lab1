@@ -127,6 +127,7 @@ namespace TestFramework
             }
         }
 
+
         public static void isNegative<T>(T value) where T : INumber<T>
         {
             if (value >= T.Zero)
