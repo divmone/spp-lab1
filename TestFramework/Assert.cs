@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-
 namespace TestFramework
 {
     public class Assert
