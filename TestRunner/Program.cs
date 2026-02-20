@@ -37,14 +37,14 @@ class TestRunner
                 var methods = type.GetMethods()
                     .Where(
                             m => m.GetCustomAttribute<TestMethodAttribute>() != null ||
-                                m.GetCustomAttribute<TestAsyncAttribute>() != null )
-                    .Select( m => new
-                        {
+                                m.GetCustomAttribute<TestAsyncAttribute>() != null)
+                    .Select(m => new
+                    {
                         Method = m,
                         Priority = m.GetCustomAttribute<TestPriorityAttribute>()?.Priority
-                        }
+                    }
                     )
-                    .OrderByDescending( m => m.Priority )
+                    .OrderByDescending(m => m.Priority)
                     .Select(x => x.Method)
                     .ToList();
 
@@ -69,12 +69,12 @@ class TestRunner
                 {
                     var ignoreAttr = method.GetCustomAttribute<TestIgnoreAttribute>();
 
-                    if( ignoreAttr != null)
+                    if (ignoreAttr != null)
                     {
                         results.Add(new TestResult
                         {
                             TestName = $"{type.Name}.{method.Name}",
-                            Status = "IGNORED"                        
+                            Status = "IGNORED"
                         });
                         continue;
                     }
@@ -151,15 +151,15 @@ class TestRunner
             {
                 method.Invoke(testInstance, parametrs);
             }
-                
-            results.Add(new TestResult{ TestName = testName, Status = "PASSED" });
+
+            results.Add(new TestResult { TestName = testName, Status = "PASSED" });
         }
         catch (Exception ex)
         {
-            results.Add(new TestResult{ TestName = testName, Status = "FAILED", Error = ex.InnerException?.Message ?? ex.Message});
+            results.Add(new TestResult { TestName = testName, Status = "FAILED", Error = ex.InnerException?.Message ?? ex.Message });
         }
         finally
-        {         
+        {
             cleanupMethod?.Invoke(testInstance, null);
         }
     }
@@ -175,6 +175,8 @@ class TestRunner
         }
 
         int passed = results.Count(r => r.Status == "PASSED");
-        Console.WriteLine($"\nTotal: {results.Count}, Passed: {passed}, Failed: {results.Count - passed}");
+        int ignored = results.Count(r => r.Status == "IGNORED");
+        int failed = results.Count(r => r.Status == "FAILED");
+        Console.WriteLine($"\nTotal: {results.Count}, Passed: {passed}, Failed: {failed}, Ignored: {ignored}");
     }
 }
