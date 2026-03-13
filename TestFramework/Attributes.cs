@@ -1,104 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TestFramework
 {
+
     [AttributeUsage(AttributeTargets.Class)]
-    public class TestClassAttribute : Attribute
-    {
-    }
+    public class TestClassAttribute : Attribute { }
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class TestClassInitAttribute: Attribute
-    {
-
-    }
+    public class TestClassInitAttribute : Attribute { }
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class TestClassCleanupAttribute : Attribute
-    {
+    public class TestClassCleanupAttribute : Attribute { }
 
-    }
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class TestMethodAttribute : Attribute
-    {
-    }
+    public class TestMethodAttribute : Attribute { }
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class TestMethodInitAttribute : Attribute
-    {
-
-    }
+    public class TestMethodInitAttribute : Attribute { }
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class TestMethodCleanupAttribute : Attribute
-    {
+    public class TestMethodCleanupAttribute : Attribute { }
 
-    }
+    [AttributeUsage(AttributeTargets.Method)]
+    public class TestAsyncAttribute : Attribute { }
+
+    [AttributeUsage(AttributeTargets.Method)]
+    public class TestIgnoreAttribute : Attribute { }
+
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class TestDataAttribute : Attribute
     {
-        public object[] Parametrs { get; set; }
-
-
-        public TestDataAttribute(params object[] parametrs)
-        {
-            Parametrs = parametrs;
-        }
+        public object[] Parametrs { get; }
+        public TestDataAttribute(params object[] parametrs) => Parametrs = parametrs;
     }
+
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class TestAsyncAttribute: Attribute
+    public class TestPriorityAttribute : Attribute
     {
-
+        public int Priority { get; }
+        public TestPriorityAttribute(int priority) => Priority = priority;
     }
 
-    [AttributeUsage (AttributeTargets.Method)]
-    public class TestIgnoreAttribute: Attribute
-    {
-
-    }
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class TestPriorityAttribute: Attribute
+    public class TestTimeoutAttribute : Attribute
     {
-        public int Priority { get; set; }
-
-        public TestPriorityAttribute(int priority)
-        {
-            Priority = priority;
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Class)]
-    public class TestCollectionAttribute : Attribute
-    {
-        public string Name { get; }
-
-        public TestCollectionAttribute(string name)
-        {
-            Name = name;
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Class)]
-    public class CollectionDefinitionAttribute : Attribute
-    {
-        public string Name { get; }
-        public Type FixtureType { get; }
-
-        public CollectionDefinitionAttribute(string name, Type fixtureType)
-        {
-            Name = name;
-            FixtureType = fixtureType;
-        }
-    }
-
-    public interface ISharedFixture : IDisposable
-    {
-        void Initialize();
+        public int MillisecondsTimeout { get; }
+        public TestTimeoutAttribute(int milliseconds) => MillisecondsTimeout = milliseconds;
     }
 }

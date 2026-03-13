@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using TestFramework;
 using TestableProject;
@@ -22,7 +23,6 @@ namespace TestProject
         [TestMethodCleanup]
         public void Teardown() => _lib = null;
 
-        // ── Book CRUD ──────────────────────────────────────────────────────
 
         [TestMethod]
         [TestPriority(10)]
@@ -37,7 +37,8 @@ namespace TestProject
         public void AddBook_DuplicateId_Throws()
         {
             bool threw = false;
-            try { _lib.AddBook(new Book(1, "Dup", 1)); } catch (InvalidOperationException) { threw = true; }
+            try { _lib.AddBook(new Book(1, "Dup", 1)); }
+            catch (InvalidOperationException) { threw = true; }
             Assert.isTrue(threw);
         }
 
@@ -75,25 +76,24 @@ namespace TestProject
         [TestMethod]
         [TestPriority(5)]
         public void TotalCopies_IsCorrect()
-            => Assert.areEqual(4, _lib.TotalCopies());  // 3+1
+            => Assert.areEqual(4, _lib.TotalCopies());
 
         [TestMethod]
         [TestPriority(4)]
         public void SortedByTitle_IsOrdered()
         {
-            var s = _lib.SortedByTitle();
-            Assert.isLessThanOrEqualTo(s[0].Title, s[1].Title);
+            var sorted = _lib.SortedByTitle();
+            Assert.isLessThanOrEqualTo(sorted[0].Title, sorted[1].Title);
         }
 
         [TestMethod]
         [TestPriority(4)]
         public void SortedByYear_IsOrdered()
         {
-            var s = _lib.SortedByYear();
-            Assert.isLessThanOrEqualTo(s[0].Year, s[1].Year);
+            var sorted = _lib.SortedByYear();
+            Assert.isLessThanOrEqualTo(sorted[0].Year, sorted[1].Year);
         }
 
-        // ── LendBook ──────────────────────────────────────────────────────
 
         [TestMethod]
         [TestData(1, true)]
@@ -115,7 +115,7 @@ namespace TestProject
         [TestPriority(7)]
         public void LendBook_NoCopies_ReturnsFalse()
         {
-            _lib.LendBook(2); // last copy
+            _lib.LendBook(2);
             Assert.isFalse(_lib.LendBook(2));
         }
 
@@ -131,14 +131,14 @@ namespace TestProject
         public async Task LendBookAsync_Unknown_ReturnsFalse()
             => Assert.isFalse(await _lib.LendBookAsync(9999));
 
-        // ── Member & LendToMember ─────────────────────────────────────────
 
         [TestMethod]
         [TestPriority(9)]
         public void RegisterMember_DuplicateThrows()
         {
             bool threw = false;
-            try { _lib.RegisterMember(new Member(1, "Bob")); } catch (InvalidOperationException) { threw = true; }
+            try { _lib.RegisterMember(new Member(1, "Bob")); }
+            catch (InvalidOperationException) { threw = true; }
             Assert.isTrue(threw);
         }
 
@@ -199,7 +199,6 @@ namespace TestProject
             Assert.isFalse(await _lib.LendToMemberAsync(1, 1));
         }
 
-        // ── History & Assert variety ──────────────────────────────────────
 
         [TestMethod]
         [TestPriority(4)]
@@ -218,9 +217,11 @@ namespace TestProject
         [TestPriority(3)]
         public void GetLendCount_IsCorrect()
         {
-            _lib.LendBook(1); _lib.LendBook(1);
+            _lib.LendBook(1);
+            _lib.LendBook(1);
             Assert.areEqual(2, _lib.GetLendCount(1));
         }
+
 
         [TestMethod]
         [TestPriority(2)]
@@ -259,5 +260,96 @@ namespace TestProject
         [TestIgnore]
         public void Ignored_ShouldNotRun()
             => throw new Exception("Не должен выполняться");
+
+
+        [TestMethod]
+        [TestTimeout(500)]
+        [TestPriority(3)]
+        public void FastOperation_WithinTimeout_Passes()
+        {
+            Thread.Sleep(50);
+            Assert.isTrue(true);
+        }
+
+        [TestMethod]
+        [TestTimeout(200)]
+        [TestPriority(3)]
+        public void SlowOperation_ExceedsTimeout_IsMarkedTimeout()
+        {
+            Thread.Sleep(1000);
+            Assert.isTrue(true);
+        }
+    }
+    [TestClass]
+    public class BookTests
+    {
+        private Book _book;
+
+        [TestMethodInit]
+        public void Setup() => _book = new Book(1, "The Pragmatic Programmer", 5, "David Thomas", "Programming", 1999);
+
+        [TestMethodCleanup]
+        public void Teardown() => _book = null;
+
+        [TestMethod]
+        [TestPriority(10)]
+        public void Book_IsAvailable_WhenCopiesPositive()
+            => Assert.isTrue(_book.IsAvailable());
+
+        [TestMethod]
+        [TestPriority(9)]
+        public void Book_IsNotAvailable_WhenNoCopies()
+        {
+            _book.Copies = 0;
+            Assert.isFalse(_book.IsAvailable());
+        }
+
+        [TestMethod]
+        [TestPriority(8)]
+        public void Book_ToString_ContainsAuthor()
+            => Assert.isTrue(_book.ToString().Contains("David Thomas"));
+
+        [TestMethod]
+        [TestPriority(7)]
+        public void Book_ToString_ContainsId()
+            => Assert.isTrue(_book.ToString().Contains("1"));
+
+        [TestMethod]
+        [TestPriority(6)]
+        public void Book_Year_IsPositive()
+            => Assert.isPositive(_book.Year);
+
+        [TestMethod]
+        [TestPriority(5)]
+        public void Book_Copies_IsCorrect()
+            => Assert.areEqual(5, _book.Copies);
+
+        [TestMethod]
+        [TestPriority(4)]
+        public void Book_Genre_IsCorrect()
+            => Assert.areEqual("Programming", _book.Genre);
+
+        [TestMethod]
+        [TestPriority(3)]
+        public void Book_Title_IsCorrect()
+            => Assert.areEqual("The Pragmatic Programmer", _book.Title);
+
+        [TestMethod]
+        [TestAsync]
+        [TestPriority(2)]
+        public async Task Book_AsyncDelay_Completes()
+        {
+            await Task.Delay(80);
+            Assert.isTrue(_book.IsAvailable());
+        }
+
+        [TestMethod]
+        [TestTimeout(300)]
+        [TestPriority(2)]
+        public void Book_FastCheck_WithinTimeout()
+        {
+            Thread.Sleep(50);
+            Assert.areEqual("The Pragmatic Programmer", _book.Title);
+        }
     }
 }
