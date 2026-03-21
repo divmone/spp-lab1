@@ -60,16 +60,16 @@ namespace TestFramework
                 return results;
             }
 
-            var jobs = BuildTestJobs(testClassType);
+            var tests = BuildTests(testClassType);
 
             var parallelOptions = new ParallelOptions
             {
                 MaxDegreeOfParallelism = _maxDegreeOfParallelism
             };
 
-            Parallel.ForEach(jobs, parallelOptions, job =>
+            Parallel.ForEach(tests, parallelOptions, test =>
             {
-                TestResult result = ExecuteJob(job, testClassType);
+                TestResult result = ExecuteTest(test, testClassType);
 
                 lock (_resultsLock)
                 {
@@ -90,7 +90,7 @@ namespace TestFramework
             return results;
         }
 
-        private record TestJob(
+        private record Test(
             string TestName,
             MethodInfo Method,
             object[] Parameters,
@@ -98,9 +98,9 @@ namespace TestFramework
             int? TimeoutMs
         );
 
-        private static List<TestJob> BuildTestJobs(Type type)
+        private static List<Test> BuildTests(Type type)
         {
-            var jobs = new List<TestJob>();
+            var tests = new List<Test>();
 
             var methods = type.GetMethods()
                 .Where(m => m.GetCustomAttribute<TestMethodAttribute>() != null
@@ -119,7 +119,7 @@ namespace TestFramework
                     foreach (var data in dataAttrs)
                     {
                         caseNumber++;
-                        jobs.Add(new TestJob(
+                        tests.Add(new Test(
                             TestName: $"{type.Name}.{method.Name} (Case {caseNumber})",
                             Method: method,
                             Parameters: data.Parametrs,
@@ -130,7 +130,7 @@ namespace TestFramework
                 }
                 else
                 {
-                    jobs.Add(new TestJob(
+                    tests.Add(new Test(
                         TestName: $"{type.Name}.{method.Name}",
                         Method: method,
                         Parameters: null,
@@ -140,13 +140,13 @@ namespace TestFramework
                 }
             }
 
-            return jobs;
+            return tests;
         }
 
-        private TestResult ExecuteJob(TestJob job, Type testClassType)
+        private TestResult ExecuteTest(Test test, Type testClassType)
         {
-            if (job.IsIgnored)
-                return new TestResult { TestName = job.TestName, Status = TestStatus.Ignored };
+            if (test.IsIgnored)
+                return new TestResult { TestName = test.TestName, Status = TestStatus.Ignored };
 
             object instance = Activator.CreateInstance(testClassType);
 
@@ -159,13 +159,13 @@ namespace TestFramework
             try
             {
                 methodInitMethod?.Invoke(instance, null);
-                result = RunTestWithOptionalTimeout(job, instance);
+                result = RunTestWithOptionalTimeout(test, instance);
             }
             catch (Exception ex)
             {
                 result = new TestResult
                 {
-                    TestName = job.TestName,
+                    TestName = test.TestName,
                     Status = TestStatus.Failed,
                     ErrorMessage = ex.InnerException?.Message ?? ex.Message
                 };
@@ -173,25 +173,25 @@ namespace TestFramework
             finally
             {
                 stopwatch.Stop();
-                TryInvokeCleanup(methodCleanupMethod, instance, job.TestName);
+                TryInvokeCleanup(methodCleanupMethod, instance, test.TestName);
             }
 
             result.ElapsedMs = stopwatch.ElapsedMilliseconds;
             return result;
         }
 
-        private static TestResult RunTestWithOptionalTimeout(TestJob job, object instance)
+        private static TestResult RunTestWithOptionalTimeout(Test test, object instance)
         {
-            bool isAsync = job.Method.GetCustomAttribute<TestAsyncAttribute>() != null;
+            bool isAsync = test.Method.GetCustomAttribute<TestAsyncAttribute>() != null;
 
-            if (job.TimeoutMs.HasValue)
-                return RunWithTimeout(job, instance, isAsync);
+            if (test.TimeoutMs.HasValue)
+                return RunWithTimeout(test, instance, isAsync);
 
-            InvokeMethod(job.Method, instance, job.Parameters, isAsync);
-            return new TestResult { TestName = job.TestName, Status = TestStatus.Passed };
+            InvokeMethod(test.Method, instance, test.Parameters, isAsync);
+            return new TestResult { TestName = test.TestName, Status = TestStatus.Passed };
         }
 
-        private static TestResult RunWithTimeout(TestJob job, object instance, bool isAsync)
+        private static TestResult RunWithTimeout(Test test, object instance, bool isAsync)
         {
             using var cts = new CancellationTokenSource();
             Exception caught = null;
@@ -200,7 +200,7 @@ namespace TestFramework
             {
                 try
                 {
-                    InvokeMethod(job.Method, instance, job.Parameters, isAsync);
+                    InvokeMethod(test.Method, instance, test.Parameters, isAsync);
                 }
                 catch (Exception ex)
                 {
@@ -208,30 +208,30 @@ namespace TestFramework
                 }
             }, cts.Token);
 
-            bool completed = task.Wait(job.TimeoutMs.Value);
+            bool completed = task.Wait(test.TimeoutMs.Value);
 
             if (!completed)
             {
                 cts.Cancel();
                 return new TestResult
                 {
-                    TestName = job.TestName,
+                    TestName = test.TestName,
                     Status = TestStatus.Timeout,
-                    ErrorMessage = $"Test exceeded time limit of {job.TimeoutMs} ms"
+                    ErrorMessage = $"Test exceeded time limit of {test.TimeoutMs} ms"
                 };
             }
 
-            if (caught != null)
+            if (caught !=  null)
             {
                 return new TestResult
                 {
-                    TestName = job.TestName,
+                    TestName = test.TestName,
                     Status = TestStatus.Failed,
                     ErrorMessage = caught.InnerException?.Message ?? caught.Message
                 };
             }
 
-            return new TestResult { TestName = job.TestName, Status = TestStatus.Passed };
+            return new TestResult { TestName = test.TestName, Status = TestStatus.Passed };
         }
 
         private static void InvokeMethod(MethodInfo method, object instance, object[] parameters, bool isAsync)

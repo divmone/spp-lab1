@@ -7,16 +7,28 @@
       "RelativeMoniker": "D:0:0:{D5167E7A-918C-D149-5D77-22640C454DC4}|TestRunner\\TestRunner.csproj|solutionrelative:testrunner\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C393C39E-434B-21C1-6C56-7AC4E694B8B1}|TestProject\\TestProject.csproj|c:\\users\\divmone\\source\\repos\\lab11\\testproject\\librarytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C393C39E-434B-21C1-6C56-7AC4E694B8B1}|TestProject\\TestProject.csproj|solutionrelative:testproject\\librarytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C2A7ED87-5624-2D05-77ED-E3AA826445FE}|TestFramework\\TestFramework.csproj|c:\\users\\divmone\\source\\repos\\lab11\\testframework\\testrunner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C2A7ED87-5624-2D05-77ED-E3AA826445FE}|TestFramework\\TestFramework.csproj|solutionrelative:testframework\\testrunner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{C2A7ED87-5624-2D05-77ED-E3AA826445FE}|TestFramework\\TestFramework.csproj|c:\\users\\divmone\\source\\repos\\lab11\\testframework\\threadpool.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C2A7ED87-5624-2D05-77ED-E3AA826445FE}|TestFramework\\TestFramework.csproj|solutionrelative:testframework\\threadpool.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C2A7ED87-5624-2D05-77ED-E3AA826445FE}|TestFramework\\TestFramework.csproj|c:\\users\\divmone\\source\\repos\\lab11\\testframework\\testresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C2A7ED87-5624-2D05-77ED-E3AA826445FE}|TestFramework\\TestFramework.csproj|solutionrelative:testframework\\testresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C2A7ED87-5624-2D05-77ED-E3AA826445FE}|TestFramework\\TestFramework.csproj|c:\\users\\divmone\\source\\repos\\lab11\\testframework\\tasksystemtestrunner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C2A7ED87-5624-2D05-77ED-E3AA826445FE}|TestFramework\\TestFramework.csproj|solutionrelative:testframework\\tasksystemtestrunner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C2A7ED87-5624-2D05-77ED-E3AA826445FE}|TestFramework\\TestFramework.csproj|c:\\users\\divmone\\source\\repos\\lab11\\testframework\\testframework.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{C2A7ED87-5624-2D05-77ED-E3AA826445FE}|TestFramework\\TestFramework.csproj|solutionrelative:testframework\\testframework.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C393C39E-434B-21C1-6C56-7AC4E694B8B1}|TestProject\\TestProject.csproj|c:\\users\\divmone\\source\\repos\\lab11\\testproject\\librarytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C393C39E-434B-21C1-6C56-7AC4E694B8B1}|TestProject\\TestProject.csproj|solutionrelative:testproject\\librarytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C2A7ED87-5624-2D05-77ED-E3AA826445FE}|TestFramework\\TestFramework.csproj|c:\\users\\divmone\\source\\repos\\lab11\\testframework\\resultsprinter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -49,10 +61,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{C393C39E-434B-21C1-6C56-7AC4E694B8B1}|TestProject\\TestProject.csproj|c:\\users\\divmone\\source\\repos\\lab11\\testproject\\testproject.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{C393C39E-434B-21C1-6C56-7AC4E694B8B1}|TestProject\\TestProject.csproj|solutionrelative:testproject\\testproject.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C2A7ED87-5624-2D05-77ED-E3AA826445FE}|TestFramework\\TestFramework.csproj|c:\\users\\divmone\\source\\repos\\lab11\\testframework\\testframework.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{C2A7ED87-5624-2D05-77ED-E3AA826445FE}|TestFramework\\TestFramework.csproj|solutionrelative:testframework\\testframework.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -62,7 +70,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,67 +78,54 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "TestRunner.cs",
-              "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\TestRunner.cs",
-              "RelativeDocumentMoniker": "TestFramework\\TestRunner.cs",
-              "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\TestRunner.cs",
-              "RelativeToolTip": "TestFramework\\TestRunner.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHMAAAA2AAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "TaskSystemTestRunner.cs",
+              "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\TaskSystemTestRunner.cs",
+              "RelativeDocumentMoniker": "TestFramework\\TaskSystemTestRunner.cs",
+              "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\TaskSystemTestRunner.cs",
+              "RelativeToolTip": "TestFramework\\TaskSystemTestRunner.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-13T13:48:44.923Z",
+              "WhenOpened": "2026-03-21T21:37:54.267Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
+              "Title": "ThreadPool.cs",
+              "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\ThreadPool.cs",
+              "RelativeDocumentMoniker": "TestFramework\\ThreadPool.cs",
+              "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\ThreadPool.cs",
+              "RelativeToolTip": "TestFramework\\ThreadPool.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0BAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-21T21:22:47.971Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "ParallelTestRunner.cs",
               "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\ParallelTestRunner.cs",
               "RelativeDocumentMoniker": "TestFramework\\ParallelTestRunner.cs",
               "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\ParallelTestRunner.cs",
               "RelativeToolTip": "TestFramework\\ParallelTestRunner.cs",
-              "ViewState": "AgIAAJAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAPcAAAAAAAAAAAAqwA0BAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-13T13:48:36.417Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "LibraryTests.cs",
-              "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestProject\\LibraryTests.cs",
-              "RelativeDocumentMoniker": "TestProject\\LibraryTests.cs",
-              "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestProject\\LibraryTests.cs",
-              "RelativeToolTip": "TestProject\\LibraryTests.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGIBAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-20T12:02:42.917Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "ResultsPrinter.cs",
               "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\ResultsPrinter.cs",
               "RelativeDocumentMoniker": "TestFramework\\ResultsPrinter.cs",
               "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\ResultsPrinter.cs",
               "RelativeToolTip": "TestFramework\\ResultsPrinter.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAYwBAAAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAABQAAAAAAAAAAAAAACsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-13T13:48:56.383Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestRunner\\Program.cs",
-              "RelativeDocumentMoniker": "TestRunner\\Program.cs",
-              "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestRunner\\Program.cs",
-              "RelativeToolTip": "TestRunner\\Program.cs",
-              "ViewState": "AgIAACYAAAAAAAAAAAAYwCUAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-20T12:02:42.902Z",
               "EditorCaption": ""
             },
             {
@@ -141,66 +136,118 @@
               "RelativeDocumentMoniker": "TestFramework\\TestResult.cs",
               "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\TestResult.cs",
               "RelativeToolTip": "TestFramework\\TestResult.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAYwBEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABAAAAAAAAAAAAAkwCUAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-13T13:44:14.443Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Assert.cs",
-              "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\Assert.cs",
-              "RelativeDocumentMoniker": "TestFramework\\Assert.cs",
-              "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\Assert.cs",
-              "RelativeToolTip": "TestFramework\\Assert.cs",
-              "ViewState": "AgIAAF4AAAAAAAAAAAAAAH8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-20T12:02:42.888Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "AssertException.cs",
-              "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\AssertException.cs",
-              "RelativeDocumentMoniker": "TestFramework\\AssertException.cs",
-              "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\AssertException.cs",
-              "RelativeToolTip": "TestFramework\\AssertException.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-20T12:02:42.902Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "Attributes.cs",
               "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\Attributes.cs",
               "RelativeDocumentMoniker": "TestFramework\\Attributes.cs",
               "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\Attributes.cs",
               "RelativeToolTip": "TestFramework\\Attributes.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAADQAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAACMAAAAAAAAAAAAUwDUAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-20T12:02:42.917Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 1,
+              "Title": "TestRunner.cs",
+              "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\TestRunner.cs",
+              "RelativeDocumentMoniker": "TestFramework\\TestRunner.cs",
+              "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\TestRunner.cs",
+              "RelativeToolTip": "TestFramework\\TestRunner.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAUwHoAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-13T13:48:44.923Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "LibraryTests.cs",
+              "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestProject\\LibraryTests.cs",
+              "RelativeDocumentMoniker": "TestProject\\LibraryTests.cs",
+              "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestProject\\LibraryTests.cs",
+              "RelativeToolTip": "TestProject\\LibraryTests.cs",
+              "ViewState": "AgIAAEwBAAAAAAAAAAAqwGIBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-20T12:02:42.917Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestRunner\\Program.cs",
+              "RelativeDocumentMoniker": "TestRunner\\Program.cs",
+              "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestRunner\\Program.cs",
+              "RelativeToolTip": "TestRunner\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-20T12:02:42.902Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AssertException.cs",
+              "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\AssertException.cs",
+              "RelativeDocumentMoniker": "TestFramework\\AssertException.cs",
+              "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\AssertException.cs",
+              "RelativeToolTip": "TestFramework\\AssertException.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-20T12:02:42.902Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TestFramework.csproj",
+              "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\TestFramework.csproj",
+              "RelativeDocumentMoniker": "TestFramework\\TestFramework.csproj",
+              "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\TestFramework.csproj",
+              "RelativeToolTip": "TestFramework\\TestFramework.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-02-20T12:02:42.822Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Assert.cs",
+              "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\Assert.cs",
+              "RelativeDocumentMoniker": "TestFramework\\Assert.cs",
+              "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\Assert.cs",
+              "RelativeToolTip": "TestFramework\\Assert.cs",
+              "ViewState": "AgIAAHMAAAAAAAAAAAAuwIoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-20T12:02:42.888Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "Library.cs",
               "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestableProject\\Library.cs",
               "RelativeDocumentMoniker": "TestableProject\\Library.cs",
               "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestableProject\\Library.cs",
               "RelativeToolTip": "TestableProject\\Library.cs",
-              "ViewState": "AgIAAHkAAAAAAAAAAAAAAIsAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAHYAAAAAAAAAAAAmwIsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-20T12:02:42.933Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "TestRunner.csproj",
               "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestRunner\\TestRunner.csproj",
               "RelativeDocumentMoniker": "TestRunner\\TestRunner.csproj",
@@ -213,8 +260,8 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "TestProject",
+              "DocumentIndex": 14,
+              "Title": "TestProject.csproj",
               "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestProject\\TestProject.csproj",
               "RelativeDocumentMoniker": "TestProject\\TestProject.csproj",
               "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestProject\\TestProject.csproj",
@@ -222,19 +269,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2026-03-13T13:50:41.985Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "TestFramework.csproj",
-              "DocumentMoniker": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\TestFramework.csproj",
-              "RelativeDocumentMoniker": "TestFramework\\TestFramework.csproj",
-              "ToolTip": "C:\\Users\\divmone\\source\\repos\\Lab11\\TestFramework\\TestFramework.csproj",
-              "RelativeToolTip": "TestFramework\\TestFramework.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-02-20T12:02:42.822Z",
               "EditorCaption": ""
             }
           ]
