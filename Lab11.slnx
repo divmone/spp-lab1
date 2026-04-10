@@ -3,4 +3,5 @@
   <Project Path="TestFramework/TestFramework.csproj" />
   <Project Path="TestProject/TestProject.csproj" />
   <Project Path="TestRunner/TestRunner.csproj" />
+  <Project Path="ThreadPool/ThreadPool.csproj" Id="1067c53c-972e-4bf7-8b4a-fc586bb8d666" />
 </Solution>

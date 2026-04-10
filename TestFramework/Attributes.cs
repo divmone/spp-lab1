@@ -51,4 +51,25 @@ namespace TestFramework
         public int MillisecondsTimeout { get; }
         public TestTimeoutAttribute(int milliseconds) => MillisecondsTimeout = milliseconds;
     }
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    public class TestCategoryAttribute : Attribute
+    {
+        public string Category { get; }
+        public TestCategoryAttribute(string category) => Category = category;
+    }
+
+    [AttributeUsage(AttributeTargets.Method)]
+    public class TestAuthorAttribute : Attribute
+    {
+        public string Author { get; }
+        public TestAuthorAttribute(string author) => Author = author;
+    }
+
+    [AttributeUsage(AttributeTargets.Method)]
+    public class TestDataSourceAttribute : Attribute
+    {
+        public string MethodName { get; }
+        public TestDataSourceAttribute(string methodName) => MethodName = methodName;
+    }
 }

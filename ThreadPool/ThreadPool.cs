@@ -1,16 +1,43 @@
 ﻿using System.Collections.Concurrent;
 
-namespace TestFramework
+namespace ThreadPool
 {
+    public class PoolEventArgs : EventArgs
+    {
+        public string Message { get; }
+        public int ThreadId { get; }
+        public DateTime OccuredAt { get; } = DateTime.UtcNow;
+
+        public PoolEventArgs(string message, int threadId = -1)
+        {
+            Message = message;
+            ThreadId = threadId;
+        }
+
+        public override string ToString() => ThreadId >= 0
+            ? $"[{OccuredAt:HH:mm:ss.fff}] W{ThreadId}: {Message}"
+            : $"[{OccuredAt:HH:mm:ss.fff}] {Message}";
+    }
+
     public sealed class TaskSystem : IDisposable
     {
+
+        public event EventHandler<PoolEventArgs>? PoolStarted;
+        public event EventHandler<PoolEventArgs>? ThreadSpawned;
+        public event EventHandler<PoolEventArgs>? ThreadRemoved;
+        public event EventHandler<PoolEventArgs>? TaskEnqueued;
+        public event EventHandler<PoolEventArgs>? TaskStarted;
+        public event EventHandler<PoolEventArgs>? TaskCompleted;
+        public event EventHandler<PoolEventArgs>? TaskFailed;
+        public event EventHandler<PoolEventArgs>? ThreadHangDetected;
+        public event EventHandler<PoolEventArgs>? PoolDisposed;
+
         private sealed class Worker
         {
             private static int _counter;
             public readonly int Id = Interlocked.Increment(ref _counter);
             public readonly Queue<Action> Tasks = new();
             public readonly object Lock = new();
-
             public volatile bool IsBusy = false;
             public string? CurrentTask = null;
             public DateTime TaskStarted = default;
@@ -49,8 +76,8 @@ namespace TestFramework
             int minThreads = 2,
             int maxThreads = 16,
             int idleTimeoutMs = 3000,
-            int scaleUpQueueThreshold = 3,
-            int scaleUpWaitMs = 500,
+            int scaleUpQueueThreshold = 1,
+            int scaleUpWaitMs = 50,
             int hangTimeoutMs = 10_000)
         {
             if (minThreads < 1) throw new ArgumentOutOfRangeException(nameof(minThreads));
@@ -74,6 +101,8 @@ namespace TestFramework
             _monitorThread.Start();
 
             Log($"[Pool] Started  min={_minThreads}  max={_maxThreads}  idle={_idleTimeoutMs}ms");
+            PoolStarted?.Invoke(this,
+                new PoolEventArgs($"Pool started. min={_minThreads} max={_maxThreads}"));
         }
 
         public void Async(Action f, string name = "Task")
@@ -85,6 +114,11 @@ namespace TestFramework
             lock (_globalQueueLock)
                 _globalQueue.Enqueue((f, name, DateTime.UtcNow));
 
+            TaskEnqueued?.Invoke(this,
+                new PoolEventArgs($"Task '{name}' enqueued. Queue={_globalQueue.Count}"));
+
+            Log($"++[Queue] +task '{name}'  queue={_globalQueue.Count}  active={_activeTasks}");
+
             int i = Interlocked.Increment(ref _index) - 1;
             Worker[]? snapshot;
             lock (_poolLock) snapshot = _workers.ToArray();
@@ -93,10 +127,8 @@ namespace TestFramework
             if (n > 0)
             {
                 for (int j = i; j < n + i; j++)
-                {
-                    if (TryPushToWorker(f, name, snapshot[(i + j) % n]))
-                        return;
-                }
+                    if (TryPushToWorker(f, name, snapshot[(i + j) % n])) return;
+
                 var w = snapshot[i % n];
                 lock (w.Lock) w.Tasks.Enqueue(f);
                 lock (w.Lock) Monitor.Pulse(w.Lock);
@@ -121,6 +153,8 @@ namespace TestFramework
             lock (_poolLock) { _workers.Add(w); _threads.Add(t); }
             t.Start();
             Log($"[Pool] +thread {t.Name} ({reason})  count={_workers.Count}");
+            ThreadSpawned?.Invoke(this,
+                new PoolEventArgs($"Thread spawned ({reason}). Total={_workers.Count}", w.Id));
             return w;
         }
 
@@ -131,8 +165,7 @@ namespace TestFramework
             {
                 int count;
                 lock (_poolLock) count = _workers.Count;
-                if (count < _maxThreads)
-                    SpawnWorker(reason);
+                if (count < _maxThreads) SpawnWorker(reason);
             }
             finally { _scaleMutex.ReleaseMutex(); }
         }
@@ -144,6 +177,8 @@ namespace TestFramework
                 _workers.Remove(w);
                 Log($"[Pool] -thread W{w.Id}  count={_workers.Count}");
             }
+            ThreadRemoved?.Invoke(this,
+                new PoolEventArgs($"Thread removed. Remaining={_workers.Count}", w.Id));
         }
 
         private void Run(Worker self)
@@ -172,6 +207,10 @@ namespace TestFramework
                                     _workers.Remove(self);
                                     shouldExit = true;
                                     Log($"[Pool] -thread W{self.Id} (idle)  count={_workers.Count}");
+                                    ThreadRemoved?.Invoke(this,
+                                        new PoolEventArgs(
+                                            $"Thread idle-timeout removed. Remaining={_workers.Count}",
+                                            self.Id));
                                 }
                             if (shouldExit) return;
                             continue;
@@ -191,15 +230,22 @@ namespace TestFramework
                 self.CurrentTask = "task";
                 self.TaskStarted = DateTime.UtcNow;
 
+                TaskStarted?.Invoke(this,
+                    new PoolEventArgs($"Task started", self.Id));
+
                 try
                 {
                     f!();
                     Interlocked.Increment(ref _completedCount);
+                    TaskCompleted?.Invoke(this,
+                        new PoolEventArgs($"Task completed", self.Id));
                 }
                 catch (Exception ex)
                 {
                     Interlocked.Increment(ref _failedCount);
                     Log($"[Worker W{self.Id}] Error: {ex.Message}");
+                    TaskFailed?.Invoke(this,
+                        new PoolEventArgs($"Task FAILED: {ex.Message}", self.Id));
                 }
                 finally
                 {
@@ -239,7 +285,7 @@ namespace TestFramework
         {
             while (!_isQuit)
             {
-                Thread.Sleep(150);
+                Thread.Sleep(100);
                 if (_isQuit) break;
 
                 int qLen, active, busy;
@@ -252,6 +298,7 @@ namespace TestFramework
                 (Action f, string name, DateTime enqueuedAt) oldest = default;
                 lock (_globalQueueLock)
                     if (_globalQueue.Count > 0) oldest = _globalQueue.Peek();
+
                 if (oldest != default)
                 {
                     double waitMs = (DateTime.UtcNow - oldest.enqueuedAt).TotalMilliseconds;
@@ -267,19 +314,20 @@ namespace TestFramework
                         double runMs = (DateTime.UtcNow - w.TaskStarted).TotalMilliseconds;
                         if (runMs > _hangTimeoutMs) { hung ??= new(); hung.Add(w); }
                     }
+
                 if (hung != null)
                     foreach (var w in hung)
                     {
                         Log($"[Pool] Hung thread W{w.Id} detected — replacing");
+                        ThreadHangDetected?.Invoke(this,
+                            new PoolEventArgs("Hung thread detected!", w.Id));
                         RemoveWorker(w);
                         SpawnWorker("hang-replace");
                     }
 
-                Console.ForegroundColor = ConsoleColor.DarkCyan;
                 Console.WriteLine(
                     $"  [Monitor] threads={active} (busy={busy}|idle={active - busy})" +
                     $"  queue={qLen}  completed={_completedCount}  errors={_failedCount}");
-                Console.ResetColor();
             }
         }
 
@@ -306,13 +354,10 @@ namespace TestFramework
 
             _scaleMutex.Dispose();
             Log("[Pool] Disposed.");
+            PoolDisposed?.Invoke(this, new PoolEventArgs("Pool disposed."));
         }
 
         private static void Log(string msg)
-        {
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine($"[{DateTime.Now:HH:mm:ss.fff}] {msg}");
-            Console.ResetColor();
-        }
+            => Console.WriteLine($"[{DateTime.Now:HH:mm:ss.fff}] {msg}");
     }
 }

@@ -279,6 +279,92 @@ namespace TestProject
             Thread.Sleep(1000);
             Assert.isTrue(true);
         }
+  
+        public static IEnumerable<object[]> AuthorSearchCases()
+        {
+            yield return new object[] { "Robert Martin", 1 };
+            yield return new object[] { "Gang of Four", 1 };
+            yield return new object[] { "Unknown Author", 0 };
+            yield return new object[] { "robert martin", 1 };
+        }
+
+        [TestMethod]
+        [TestDataSource(nameof(AuthorSearchCases))]
+        [TestPriority(6)]
+        [TestCategory("Books")]
+        [TestAuthor("Bob")]
+        public void FindByAuthor_FromGenerator(string author, int expectedCount)
+        {
+            var found = _lib.FindByAuthor(author);
+            Assert.areEqual(expectedCount, found.Count);
+        }
+
+        public static IEnumerable<object[]> LendCases()
+        {
+            yield return new object[] { 1, true };
+            yield return new object[] { 2, true };
+            yield return new object[] { 99, false };
+        }
+
+        [TestMethod]
+        [TestDataSource(nameof(LendCases))]
+        [TestPriority(7)]
+        [TestCategory("Lending")]
+        [TestAuthor("Bob")]
+        public void LendBook_FromGenerator(int bookId, bool expected)
+            => Assert.areEqual(expected, _lib.LendBook(bookId));
+
+        [TestMethod]
+        [TestPriority(10)]
+        [TestCategory("AssertThat")]
+        [TestAuthor("Alice")]
+        public void AssertThat_SimpleEquality_Passes()
+        {
+            int x = 5;
+            Assert.That(() => x == 5);
+        }
+
+        [TestMethod]
+        [TestPriority(10)]
+        [TestCategory("AssertThat")]
+        [TestAuthor("Alice")]
+        public void AssertThat_BookCopiesPositive_Passes()
+        {
+            var book = _lib.FindBookById(1);
+            Assert.That(() => book.Copies > 0);
+        }
+
+        [TestMethod]
+        [TestPriority(9)]
+        [TestCategory("AssertThat")]
+        [TestAuthor("Alice")]
+        public void AssertThat_ComplexExpression_Passes()
+        {
+            var books = _lib.GetAvailable();
+            Assert.That(() => books.Count == 2 && _lib.TotalCopies() == 4);
+        }
+
+        [TestMethod]
+        [TestPriority(8)]
+        [TestCategory("AssertThat")]
+        [TestAuthor("Alice")]
+        public void AssertThat_Fails_ShowsExpressionDetail()
+        {
+            int actual = 3;
+            int expected = 7;
+            Assert.That(() => actual == expected); // провалится с подробным разбором
+        }
+
+        [TestMethod]
+        [TestPriority(8)]
+        [TestCategory("AssertThat")]
+        [TestAuthor("Alice")]
+        public void AssertThat_MethodCall_Passes()
+        {
+            var book = _lib.FindBookById(1);
+            Assert.That(() => book.IsAvailable());
+        }
+
     }
     [TestClass]
     public class BookTests
@@ -351,5 +437,11 @@ namespace TestProject
             Thread.Sleep(50);
             Assert.areEqual("The Pragmatic Programmer", _book.Title);
         }
+
+        //[TestMethod]
+        //public void HangingTest()
+        //{
+        //    Thread.Sleep(15_000);
+        //}
     }
 }
